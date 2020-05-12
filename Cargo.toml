@@ -1,0 +1,15 @@
+[package]
+name = "Copbot_rs"
+version = "0.1.0"
+authors = ["gramistella <gramistella@icloud.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+gtk = { git = "https://github.com/gtk-rs/gtk.git" }
+scraper = "0.12.0"
+reqwest = {version = "0.10.4", features = ["cookies"]}
+tokio = { version = "0.2", features = ["full"] }
+stopwatch = "0.0.7"
+serde_json = "1.0.48"
