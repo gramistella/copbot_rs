@@ -1,15 +1,30 @@
 [package]
 name = "Copbot_rs"
 version = "0.1.0"
-authors = ["gramistella <gramistella@icloud.com>"]
+authors = ["G. Ramistella <gramistella@icloud.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-gtk = { git = "https://github.com/gtk-rs/gtk.git" }
+gtk = "0.9.0"
+gdk-pixbuf = {version = "0.9.0"}
+glib = "0.10.0"
+bytes = "0.5.4"
 scraper = "0.12.0"
-reqwest = {version = "0.10.4", features = ["cookies"]}
+reqwest = {path = "C:\\Users\\John\\Desktop\\projects\\reqwest\\reqwest", features = ["cookies"]}
 tokio = { version = "0.2", features = ["full"] }
 stopwatch = "0.0.7"
-serde_json = "1.0.48"
+serde_json = "1.0.57"
+serde = {version = "1.0.110"}
+chrono = "0.4.11"
+time = "0.2.16"
+spin_sleep = "1.0.0"
+url = "2.1.1"
+cancellable-timer = "0.1.0"
+soup = "0.5.0"
+fantoccini = "0.13.1"
+headless_chrome = { git = "https://github.com/jeprojects/rust-headless-chrome" }
+failure = "0.1.8"
+cookie = "0.13.3"
+rand = "0.7.3"

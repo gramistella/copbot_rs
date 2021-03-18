@@ -1,17 +1,21 @@
 #![allow(non_snake_case)]
 #![windows_subsystem = "windows"]
 use crate::gui::init_gtk;
+use fantoccini;
+use std::process::Command;
+use std::os::windows::process::CommandExt;
 
 mod gui;
 mod req_handler;
 mod bot_utils;
 mod bot;
-mod log;
 mod benchmark;
+mod profileHandler;
 
-fn main() {
+#[tokio::main]
+async fn main(){
 
-    let debug = true;
+    let debug = false;
     init_gtk(debug);
-    //benchmark::start_benchmark(20);
+
 }

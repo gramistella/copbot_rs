@@ -3,7 +3,13 @@ use std::string::String;
 use std::borrow::BorrowMut;
 use std::str::SplitWhitespace;
 use reqwest::header;
-use reqwest::header::{ACCEPT, ACCEPT_LANGUAGE, CONTENT_TYPE, ORIGIN, REFERER, CONNECTION, DNT, USER_AGENT, PRAGMA,TE,CACHE_CONTROL};
+use reqwest::header::{ACCEPT, ACCEPT_LANGUAGE, CONTENT_TYPE, ORIGIN, REFERER, CONNECTION, DNT, USER_AGENT, PRAGMA,TE,CACHE_CONTROL, UPGRADE_INSECURE_REQUESTS};
+use crate::profileHandler::{Profile, CreditCard};
+use headless_chrome::browser::tab::element::Element;
+use std::thread::sleep;
+use headless_chrome::Tab;
+use std::sync::Arc;
+use rand::distributions::{Distribution, Uniform};
 
 #[derive(Clone,Debug)]
 pub struct ShopItem{
@@ -82,7 +88,7 @@ impl Default for BotItem {
     }
 }
 
-pub fn gen_header_map(headers: &mut header::HeaderMap){
+pub fn gen_scraping_header_map(headers: &mut header::HeaderMap){
     let user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/80.0.3987.95 Mobile/15E148 Safari/604.1";
     headers.insert(USER_AGENT, header::HeaderValue::from_str(user_agent).unwrap());
     headers.insert(ACCEPT, header::HeaderValue::from_str("application/json").unwrap());
@@ -93,6 +99,21 @@ pub fn gen_header_map(headers: &mut header::HeaderMap){
     headers.insert(DNT, header::HeaderValue::from_str("1").unwrap());
     headers.insert(CONNECTION, header::HeaderValue::from_str("keep-alive").unwrap());
     headers.insert(REFERER, header::HeaderValue::from_str("https://www.supremenewyork.com/mobile/").unwrap());
+    headers.insert(UPGRADE_INSECURE_REQUESTS, header::HeaderValue::from_str("1").unwrap());
+    headers.insert(PRAGMA, header::HeaderValue::from_str("no-cache").unwrap());
+    headers.insert(CACHE_CONTROL, header::HeaderValue::from_str("no-cache").unwrap());
+    headers.insert(TE, header::HeaderValue::from_str("Trailers").unwrap());
+
+}
+
+pub fn gen_checkout_header_map(headers: &mut header::HeaderMap){
+    let user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/80.0.3987.95 Mobile/15E148 Safari/604.1";
+    headers.insert(USER_AGENT, header::HeaderValue::from_str(user_agent).unwrap());
+    headers.insert(ACCEPT, header::HeaderValue::from_str("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8").unwrap());
+    headers.insert(ACCEPT_LANGUAGE, header::HeaderValue::from_str("en-US,en;q=0.5").unwrap());
+    headers.insert(DNT, header::HeaderValue::from_str("1").unwrap());
+    headers.insert(CONNECTION, header::HeaderValue::from_str("keep-alive").unwrap());
+    headers.insert(UPGRADE_INSECURE_REQUESTS, header::HeaderValue::from_str("1").unwrap());
     headers.insert(PRAGMA, header::HeaderValue::from_str("no-cache").unwrap());
     headers.insert(CACHE_CONTROL, header::HeaderValue::from_str("no-cache").unwrap());
     headers.insert(TE, header::HeaderValue::from_str("Trailers").unwrap());
@@ -192,4 +213,35 @@ fn compare_kw(mut keywords: SplitWhitespace, shop_item: String, kw_found: &mut i
         //println!("Finished keywords");
         return;
     }
+}
+
+pub fn crop_letters(s: &str, pos: usize) -> &str {
+    match s.char_indices().skip(pos).next() {
+        Some((pos, _)) => &s[pos..],
+        None => "",
+    }
+}
+
+pub fn legit_type_into(input: Element, string: &str){
+
+    for i in 0..string.len(){
+        input.type_into(&string.chars().nth(i).unwrap().to_string()).ok().expect("Couldn't write to input");
+        let step = Uniform::new(80, 110);
+        let mut rng = rand::thread_rng();
+        let choice = step.sample(&mut rng) as u64;
+        sleep(std::time::Duration::from_millis(choice));
+    }
+
+}
+
+pub fn legit_type_str(input: Arc<Tab>, string: &str){
+
+    for i in 0..string.len(){
+        input.type_str(&string.chars().nth(i).unwrap().to_string());
+        let step = Uniform::new(80, 110);
+        let mut rng = rand::thread_rng();
+        let choice = step.sample(&mut rng) as u64;
+        sleep(std::time::Duration::from_millis(choice));
+    }
+
 }
