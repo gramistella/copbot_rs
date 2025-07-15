@@ -3,7 +3,6 @@
 use crate::gui::init_gtk;
 use fantoccini;
 use std::process::Command;
-use std::os::windows::process::CommandExt;
 
 mod gui;
 mod req_handler;

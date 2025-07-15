@@ -53,6 +53,7 @@ copbot_rs
     ├── bot_utils.rs    # Helper functions and data structures for the bot
     ├── profileHandler.rs # Manages saving and loading of user profiles
     └── benchmark.rs    # (Empty) Placeholder for performance tests```
+```
 
 ## Key Dependencies
 

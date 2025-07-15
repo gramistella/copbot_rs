@@ -1,0 +1,7 @@
+target
+*.iml
+debug.html
+debug.log
+data.json
+debug.txt
+.DS_Store
